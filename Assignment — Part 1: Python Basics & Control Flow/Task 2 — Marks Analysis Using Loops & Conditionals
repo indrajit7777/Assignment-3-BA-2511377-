@@ -1,0 +1,94 @@
+
+# Initial data for Ayesha Sharma
+student_name = "Ayesha Sharma"
+subjects = ["Math", "Physics", "CS", "English", "Chemistry"]
+marks = [88, 72, 95, 60, 78]
+
+print(f"Results for: {student_name}")
+print("=" * 40)
+
+# Part 1: Print each subject with marks and grade using for loop
+print("Subject-wise Performance:\n")
+
+for i in range(len(subjects)):
+    m = marks[i]
+    
+    # Determine grade according to the given scheme
+    if m >= 90:
+        grade = "A+"
+    elif m >= 80:
+        grade = "A"
+    elif m >= 70:
+        grade = "B"
+    elif m >= 60:
+        grade = "C"
+    else:
+        grade = "F"
+    
+    print(f"{subjects[i]:12} : {m:3} marks → {grade}")
+
+print("-" * 40)
+
+# Part 2: Calculate total, average, highest and lowest subject
+total = sum(marks)
+average = round(total / len(marks), 2)
+
+# Find highest and lowest scoring subjects
+highest_mark = max(marks)
+lowest_mark = min(marks)
+
+highest_subject = subjects[marks.index(highest_mark)]
+lowest_subject = subjects[marks.index(lowest_mark)]
+
+print(f"Total Marks      : {total}")
+print(f"Average Marks    : {average}")
+print(f"Highest Score    : {highest_subject} ({highest_mark} marks)")
+print(f"Lowest Score     : {lowest_subject} ({lowest_mark} marks)")
+
+# Part 3: While loop - Interactive marks entry system
+print("\n" + "=" * 40)
+print("Add New Subjects (type 'done' to stop)")
+print("=" * 40)
+
+new_count = 0
+
+while True:
+    # Ask for subject name
+    subject = input("\nEnter subject name (or 'done' to finish): ").strip()
+    
+    if subject.lower() == "done":
+        break
+    
+    if not subject:   # Prevent empty subject name
+        print("Warning: Subject name cannot be empty!")
+        continue
+    
+    # Ask for marks with proper validation
+    try:
+        mark_input = input(f"Enter marks for '{subject}' (0-100): ").strip()
+        mark = float(mark_input)
+        
+        if 0 <= mark <= 100:
+            subjects.append(subject)
+            marks.append(mark)
+            new_count += 1
+            print(f"✓ Successfully added: {subject} - {mark} marks")
+        else:
+            print("Warning: Marks must be between 0 and 100. Not added.")
+            
+    except ValueError:
+        print("Warning: Please enter a valid number for marks. Not added.")
+
+# Final summary after adding new subjects
+print("\n" + "-" * 40)
+print("Addition Summary")
+print("-" * 40)
+print(f"New subjects added     : {new_count}")
+
+if len(marks) > 0:
+    updated_average = round(sum(marks) / len(marks), 2)
+    print(f"Updated Overall Average: {updated_average}")
+else:
+    print("No subjects available.")
+
+print("\nTask 2 completed successfully!")
