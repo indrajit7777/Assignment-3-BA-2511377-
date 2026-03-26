@@ -1,0 +1,51 @@
+# Student Grade Tracker
+
+raw_students = [
+    {"name": " ayesha SHARMA ", "roll": "101", "marks_str": "88, 72, 95, 60, 78"},
+    {"name": "ROHIT verma", "roll": "102", "marks_str": "55, 68, 49, 72, 61"},
+    {"name": " Priya Nair ", "roll": "103", "marks_str": "91, 85, 88, 94, 79"},
+    {"name": "karan MEHTA", "roll": "104", "marks_str": "40, 55, 38, 62, 50"},
+    {"name": " Sneha pillai ", "roll": "105", "marks_str": "75, 80, 70, 68, 85"},
+]
+
+cleaned_data = []
+
+print("--- Student Data Cleaning Process ---")
+
+# Loop through each raw student and clean the data
+for s in raw_students:
+    # Clean name: remove extra spaces and convert to Title Case (e.g. Ayesha Sharma)
+    name = s['name'].strip().title()
+    
+    # Convert roll from string to integer
+    roll = int(s['roll'])
+    
+    # Convert marks string "88, 72, ..." into list of integers
+    # Using list comprehension for cleaner code
+    marks = [int(x.strip()) for x in s['marks_str'].split(',')]
+    
+    # Store cleaned student data
+    student = {'name': name, 'roll': roll, 'marks': marks}
+    cleaned_data.append(student)
+    
+    # Validate name - check if all characters (after removing spaces) are alphabets
+    valid = "✓ Valid name" if name.replace(" ", "").isalpha() else "✗ Invalid name"
+    
+    print(f"Roll {roll}: {name} → {valid}")
+
+print("\n--- Student Profile Cards ---")
+
+# Print formatted profile for each cleaned student
+for s in cleaned_data:
+    print("=" * 35)
+    print(f"Student : {s['name']}")
+    print(f"Roll No : {s['roll']}")
+    print(f"Marks   : {s['marks']}")
+    print("=" * 35)
+    
+    # Special requirement for roll number 103
+    if s['roll'] == 103:
+        print(f"Uppercase : {s['name'].upper()}")
+        print(f"Lowercase : {s['name'].lower()}")
+
+print("\nTask 1 completed successfully!")
