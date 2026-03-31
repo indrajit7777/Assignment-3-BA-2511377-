@@ -1,0 +1,56 @@
+menu = {
+    "Paneer Tikka":   {"category": "Starters",  "price": 180.0, "available": True},
+    "Chicken Wings":  {"category": "Starters",  "price": 220.0, "available": False},
+    "Veg Soup":       {"category": "Starters",  "price": 120.0, "available": True},
+    "Butter Chicken": {"category": "Mains",     "price": 320.0, "available": True},
+    "Dal Tadka":      {"category": "Mains",     "price": 180.0, "available": True},
+    "Veg Biryani":    {"category": "Mains",     "price": 250.0, "available": True},
+    "Garlic Naan":    {"category": "Mains",     "price":  40.0, "available": True},
+    "Gulab Jamun":    {"category": "Desserts",  "price":  90.0, "available": True},
+    "Rasgulla":       {"category": "Desserts",  "price":  80.0, "available": True},
+    "Ice Cream":      {"category": "Desserts",  "price": 110.0, "available": False},
+}
+
+# Part 1 - print menu grouped by category
+
+categories = ["Starters", "Mains", "Desserts"]
+
+for cat in categories:
+    print(f"===== {cat} =====")
+    for name in menu:
+        if menu[name]["category"] == cat:
+            if menu[name]["available"] == True:
+                status = "[Available]"
+            else:
+                status = "[Unavailable]"
+            print(f"{name}    ₹{menu[name]['price']:.2f}   {status}")
+    print("")
+
+# Part 2 - menu statistics
+
+# total items
+print("Total number of items:", len(menu))
+
+# count available items
+count = 0
+for name in menu:
+    if menu[name]["available"] == True:
+        count = count + 1
+print("Total available items:", count)
+
+# most expensive item
+expensive_name = ""
+expensive_price = 0
+
+for name in menu:
+    if menu[name]["price"] > expensive_price:
+        expensive_price = menu[name]["price"]
+        expensive_name = name
+
+print("Most expensive item:", expensive_name, "₹" + str(expensive_price))
+
+# items under 150
+print("Items under ₹150:")
+for name in menu:
+    if menu[name]["price"] < 150:
+        print(" -", name, "₹" + str(menu[name]["price"]))
