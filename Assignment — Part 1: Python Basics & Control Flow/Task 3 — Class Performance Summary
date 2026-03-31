@@ -1,0 +1,53 @@
+class_data = [
+    ("Ayesha Sharma", [88, 72, 95, 60, 78]),
+    ("Rohit Verma", [55, 68, 49, 72, 61]),
+    ("Priya Nair", [91, 85, 88, 94, 79]),
+    ("Karan Mehta", [40, 55, 38, 62, 50]),
+    ("Sneha Pillai", [75, 80, 70, 68, 85]),
+]
+
+print("=== Class Performance Report ===\n")
+
+pass_count = 0
+fail_count = 0
+topper_name = ""
+topper_avg = 0
+sum_of_avgs = 0
+
+for student in class_data:
+    name = student[0]
+    marks = student[1]
+    
+    # Calculate total and average manually
+    total_marks = 0
+    for mark in marks:
+        total_marks = total_marks + mark
+    
+    avg = total_marks / len(marks)
+    avg_rounded = round(avg, 2)
+    
+    # Check pass or fail
+    if avg_rounded >= 60:
+        status = "Pass"
+        pass_count = pass_count + 1
+    else:
+        status = "Fail"
+        fail_count = fail_count + 1
+    
+    # Find the topper
+    if avg_rounded > topper_avg:
+        topper_avg = avg_rounded
+        topper_name = name
+    
+    sum_of_avgs = sum_of_avgs + avg_rounded
+    
+    # Print each student's result
+    print(f"{name} - {avg_rounded} - {status}")
+
+print("\n--- Class Summary ---")
+print(f"Total Students : {len(class_data)}")
+print(f"Passed         : {pass_count}")
+print(f"Failed         : {fail_count}")
+print(f"Class Topper   : {topper_name} ({topper_avg})")
+print(f"Class Average  : {round(sum_of_avgs / len(class_data), 2)}")
+
