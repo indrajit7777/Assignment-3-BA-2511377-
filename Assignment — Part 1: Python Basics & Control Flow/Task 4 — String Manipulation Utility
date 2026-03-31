@@ -1,0 +1,47 @@
+essay = " python is a versatile language. it supports object oriented, functional, and procedural programming. python is widely used in data science and machine learning. "
+
+print("=== Task 4: String Manipulation Utility ===\n")
+
+# Step 1: Remove extra spaces from start and end
+clean_essay = essay.strip()
+print("1. After stripping whitespace:")
+print(clean_essay)
+print()
+
+# Step 2: Convert the entire essay to Title Case
+title_version = clean_essay.title()
+print("2. Essay in Title Case:")
+print(title_version)
+print()
+
+# Step 3: Count occurrences of the word "python" (ignoring case)
+# clean_essay is already in lowercase so we can count directly
+count_python = clean_essay.count("python")
+print(f"3. 'python' appears {count_python} times (case-insensitive)")
+print()
+
+# Step 4: Replace every "python" with "Python 🐍"
+improved_essay = clean_essay.replace("python", "Python 🐍")
+print("4. After replacing 'python' with 'Python 🐍':")
+print(improved_essay)
+print()
+
+# Step 5: Split the essay into sentences
+sentences = clean_essay.split(". ")
+
+print("5. Sentences after splitting on '. ':")
+print(sentences)
+print()
+
+# Step 6: Print nicely numbered sentences and fix ending punctuation
+print("6. Final Numbered Sentences:")
+for i in range(len(sentences)):
+    sent = sentences[i].strip()
+    
+    # Make sure every sentence ends with a full stop
+    if not sent.endswith("."):
+        sent = sent + "."
+    
+    print(f"{i+1}. {sent}")
+
+print("\nTask 4 completed successfully!")
