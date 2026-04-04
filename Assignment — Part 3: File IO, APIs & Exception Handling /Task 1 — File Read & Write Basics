@@ -1,0 +1,48 @@
+# Part A: Writing to File
+# Write 5 lines
+f = open("python_notes.txt", "w", encoding="utf-8")
+f.write("Topic 1: Variables store data. Python is dynamically typed.\n")
+f.write("Topic 2: Lists are ordered and mutable.\n")
+f.write("Topic 3: Dictionaries store key-value pairs.\n")
+f.write("Topic 4: Loops automate repetitive tasks.\n")
+f.write("Topic 5: Exception handling prevents crashes.\n")
+f.close()
+
+print("File written successfully.")
+
+# Append 2 more lines
+f = open("python_notes.txt", "a", encoding="utf-8")
+f.write("Topic 6: Functions help us reuse code and keep things clean.\n")
+f.write("Topic 7: Modules let us import and use code written by others.\n")
+f.close()
+
+print("Lines appended successfully.\n")
+
+# Part B: Reading the File
+
+print("--- File Contents ---")
+
+f = open("python_notes.txt", "r", encoding="utf-8")
+lines = f.readlines()
+f.close()
+
+# Print numbered lines
+count = 1
+for line in lines:
+    print(str(count) + ". " + line.strip())
+    count = count + 1
+
+print("\nTotal lines in file:", len(lines))
+
+# Search for keyword
+print()
+keyword = input("Enter a keyword to search: ")
+
+found = False
+for line in lines:
+    if keyword.lower() in line.lower():
+        print(line.strip())
+        found = True
+
+if found == False:
+    print("No lines found containing the keyword '" + keyword + "'")
