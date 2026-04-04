@@ -1,0 +1,74 @@
+print("=== Task 2: Data Visualization with Matplotlib ===\n")
+
+# 1. Bar Chart - Average score per subject
+plt.figure(figsize=(8, 5))
+avg_subjects = df[subject_cols].mean()
+plt.bar(subject_cols, avg_subjects, color='skyblue')
+plt.title("Average Score per Subject")
+plt.xlabel("Subject")
+plt.ylabel("Average Score")
+plt.grid(axis='y', alpha=0.3)
+plt.savefig("plot1_bar.png")
+plt.show()
+
+# 2. Histogram - Distribution of Math Scores
+plt.figure(figsize=(8, 5))
+plt.hist(df['math'], bins=5, color='lightgreen', edgecolor='black')
+mean_math = df['math'].mean()
+plt.axvline(mean_math, color='red', linestyle='--', label=f'Mean: {mean_math:.1f}')
+plt.title("Distribution of Math Scores")
+plt.xlabel("Math Score")
+plt.ylabel("Number of Students")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.savefig("plot2_histogram.png")
+plt.show()
+
+# 3. Scatter Plot - Study Hours vs Average Score
+plt.figure(figsize=(8, 6))
+pass_students = df[df['passed'] == 1]
+fail_students = df[df['passed'] == 0]
+
+plt.scatter(pass_students['study_hours_per_day'], pass_students['avg_score'], 
+            color='green', label='Pass', alpha=0.7, s=60)
+plt.scatter(fail_students['study_hours_per_day'], fail_students['avg_score'], 
+            color='red', label='Fail', alpha=0.7, s=60)
+
+plt.title("Study Hours vs Average Score")
+plt.xlabel("Study Hours per Day")
+plt.ylabel("Average Score")
+plt.legend(title="Result")
+plt.grid(True, alpha=0.3)
+plt.savefig("plot3_scatter.png")
+plt.show()
+
+# 4. Box Plot - Attendance % for Pass vs Fail
+plt.figure(figsize=(7, 5))
+pass_att = df[df['passed'] == 1]['attendance_pct'].tolist()
+fail_att = df[df['passed'] == 0]['attendance_pct'].tolist()
+
+plt.boxplot([pass_att, fail_att], labels=['Pass', 'Fail'], patch_artist=True)
+plt.title("Attendance Percentage: Pass vs Fail")
+plt.ylabel("Attendance %")
+plt.grid(axis='y', alpha=0.3)
+plt.savefig("plot4_boxplot.png")
+plt.show()
+
+# 5. Line Plot - Math and Science scores per student
+plt.figure(figsize=(10, 6))
+x = range(len(df))
+
+plt.plot(x, df['math'], marker='o', linestyle='-', label='Math', color='blue')
+plt.plot(x, df['science'], marker='s', linestyle='--', label='Science', color='orange')
+
+plt.title("Math and Science Scores by Student")
+plt.xlabel("Student")
+plt.ylabel("Score")
+plt.xticks(x, df['name'], rotation=45)
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig("plot5_line.png")
+plt.show()
+
+print("All 5 plots have been created and saved successfully!")
