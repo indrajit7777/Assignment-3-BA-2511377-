@@ -1,0 +1,48 @@
+print("=== Task 1: Data Exploration with Pandas ===\n")
+
+# 1. First 5 rows
+print("1. First 5 rows:")
+print(df.head())
+print("\n" + "-"*50)
+
+# 2. Shape and data types
+print("\n2. Shape and Data Types:")
+print("Shape:", df.shape)
+print("\nData Types:")
+print(df.dtypes)
+print("\n" + "-"*50)
+
+# 3. Summary statistics
+print("\n3. Summary Statistics:")
+print(df.describe())
+print("\n" + "-"*50)
+
+# 4. Pass and Fail count
+print("\n4. Pass and Fail Count:")
+print(df['passed'].value_counts())
+print("\n" + "-"*50)
+
+# 5. Average scores for passing and failing students
+subjects = ['math', 'science', 'english', 'history', 'pe']
+
+print("\n5. Average Scores by Pass/Fail:")
+print("Passing Students:")
+print(df[df['passed'] == 1][subjects].mean().round(2))
+
+print("\nFailing Students:")
+print(df[df['passed'] == 0][subjects].mean().round(2))
+print("\n" + "-"*50)
+
+# 6. Student with highest overall average
+df['overall_avg'] = df[['math', 'science', 'english', 'history', 'pe']].mean(axis=1)
+
+best_student = df.loc[df['overall_avg'].idxmax()]
+
+print("\n6. Student with Highest Overall Average:")
+print("Name:", best_student['name'])
+print("Overall Average:", round(best_student['overall_avg'], 2))
+print("Math:", best_student['math'])
+print("Science:", best_student['science'])
+print("English:", best_student['english'])
+print("History:", best_student['history'])
+print("PE:", best_student['pe'])
