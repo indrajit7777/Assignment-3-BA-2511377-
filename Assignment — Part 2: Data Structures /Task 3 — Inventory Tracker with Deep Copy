@@ -1,0 +1,67 @@
+
+# part 1 - deep copy
+
+# deepcopy makes a full separate copy including inner dictionaries
+# normal copy wont work because inventory has dicts inside dicts
+inventory_backup = copy.deepcopy(inventory)
+
+# change paneer tikka stock to prove backup stays the same
+inventory["Paneer Tikka"]["stock"] = 999
+
+print("after change:")
+print("inventory paneer stock =", inventory["Paneer Tikka"]["stock"])
+print("backup paneer stock =", inventory_backup["Paneer Tikka"]["stock"])
+print("backup didnt change, so deepcopy works")
+print()
+
+# restore back to 10 before doing anything else
+inventory["Paneer Tikka"]["stock"] = 10
+print("restored paneer tikka stock back to 10")
+print()
+
+
+# part 2 - order fulfilment
+# cart from task 2
+final_cart = [{"item": "Paneer Tikka", "quantity": 3, "price": 180.0}]
+
+print("--- Order Fulfilment ---")
+
+for order in final_cart:
+    name = order["item"]
+    qty = order["quantity"]
+    stock = inventory[name]["stock"]
+
+    if stock >= qty:
+        inventory[name]["stock"] = stock - qty
+        print("Deducted", qty, "from", name)
+        print("Stock left:", inventory[name]["stock"])
+    else:
+        # not enough stock, only deduct what we have
+        print("Warning: not enough stock for", name)
+        print("Needed", qty, "but only", stock, "available")
+        inventory[name]["stock"] = 0
+        print("Stock set to 0")
+
+print()
+
+
+# part 3 - reorder alerts
+
+print("--- Reorder Alerts ---")
+
+for item in inventory:
+    stock = inventory[item]["stock"]
+    reorder = inventory[item]["reorder_level"]
+
+    if stock <= reorder:
+        print("Reorder Alert:", item, "only", stock, "unit(s) left (reorder level:", str(reorder) + ")")
+
+print()
+
+
+# part 4 - final comparison to prove deep copy worked
+
+print("--- Comparing inventory vs backup ---")
+print("Paneer Tikka current stock =", inventory["Paneer Tikka"]["stock"])
+print("Paneer Tikka backup stock =", inventory_backup["Paneer Tikka"]["stock"])
+print("values are different so deep copy protected the original")
