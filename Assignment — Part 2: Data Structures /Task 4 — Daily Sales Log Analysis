@@ -1,0 +1,90 @@
+sales_log = {
+    "2025-01-01": [
+        {"order_id": 1, "items": ["Paneer Tikka", "Garlic Naan"], "total": 220.0},
+        {"order_id": 2, "items": ["Gulab Jamun", "Veg Soup"], "total": 210.0},
+        {"order_id": 3, "items": ["Butter Chicken", "Garlic Naan"], "total": 360.0},
+    ],
+    "2025-01-02": [
+        {"order_id": 4, "items": ["Dal Tadka", "Garlic Naan"], "total": 220.0},
+        {"order_id": 5, "items": ["Veg Biryani", "Gulab Jamun"], "total": 340.0},
+    ],
+    "2025-01-03": [
+        {"order_id": 6, "items": ["Paneer Tikka", "Rasgulla"], "total": 260.0},
+        {"order_id": 7, "items": ["Butter Chicken", "Veg Biryani"], "total": 570.0},
+        {"order_id": 8, "items": ["Garlic Naan", "Gulab Jamun"], "total": 130.0},
+    ],
+    "2025-01-04": [
+        {"order_id": 9, "items": ["Dal Tadka", "Garlic Naan", "Rasgulla"], "total": 300.0},
+        {"order_id": 10, "items": ["Paneer Tikka", "Gulab Jamun"], "total": 270.0},
+    ],
+}
+
+# Part 1: Revenue Per Day
+print("--- Revenue Per Day ---")
+for date in sales_log:
+    total = 0
+    for order in sales_log[date]:
+        total = total + order["total"]
+    print(date, "-> ₹", total)
+print()
+
+# Part 2: Best Selling Day
+best_day = ""
+best_total = 0
+
+for date in sales_log:
+    total = 0
+    for order in sales_log[date]:
+        total = total + order["total"]
+    if total > best_total:
+        best_total = total
+        best_day = date
+
+print("Best day:", best_day, "Revenue: ₹", best_total)
+print()
+
+# Part 3: Most Ordered Item
+item_count = {}
+
+for date in sales_log:
+    for order in sales_log[date]:
+        for item in order["items"]:
+            if item not in item_count:
+                item_count[item] = 0
+            item_count[item] = item_count[item] + 1
+
+# Find most ordered item
+top_item = ""
+top_count = 0
+for item in item_count:
+    if item_count[item] > top_count:
+        top_count = item_count[item]
+        top_item = item
+
+print("Most ordered item:", top_item, "- ordered", top_count, "times")
+print()
+
+# Part 4: Add new day
+sales_log["2025-01-05"] = [
+    {"order_id": 11, "items": ["Butter Chicken", "Gulab Jamun", "Garlic Naan"], "total": 490.0},
+    {"order_id": 12, "items": ["Paneer Tikka", "Rasgulla"], "total": 260.0},
+]
+
+# Show updated revenue
+print("--- Revenue Per Day (Updated) ---")
+for date in sales_log:
+    total = 0
+    for order in sales_log[date]:
+        total = total + order["total"]
+    print(date, "-> ₹", total)
+print()
+
+# Part 5: All Orders with numbers
+print("--- All Orders ---")
+count = 1
+for date in sales_log:
+    for order in sales_log[date]:
+        items = ", ".join(order["items"])
+        print(count, ". [" + date + "] Order #" + str(order["order_id"]) + 
+              " - ₹" + str(order["total"]) + " - Items: " + items)
+        count = count + 1
