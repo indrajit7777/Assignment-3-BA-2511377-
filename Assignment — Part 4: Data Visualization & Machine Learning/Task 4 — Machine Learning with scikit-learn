@@ -1,0 +1,76 @@
+# Step 1: Prepare Data
+features = ['math', 'science', 'english', 'history', 'pe', 'attendance_pct', 'study_hours_per_day']
+X = df[features]
+y = df['passed']
+
+# Split into train and test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Scale the features
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+print("Data prepared and scaled successfully.\n")
+
+# Step 2: Train the Model
+model = LogisticRegression()
+model.fit(X_train_scaled, y_train)
+
+train_accuracy = model.score(X_train_scaled, y_train)
+print(f"Training Accuracy: {train_accuracy:.2f}")
+
+# Step 3: Evaluate the Model
+test_accuracy = model.score(X_test_scaled, y_test)
+print(f"Test Accuracy: {test_accuracy:.2f}\n")
+
+# Show predictions for test students
+print("Test Set Predictions:")
+test_names = df.loc[X_test.index, 'name'].values
+
+for i, name in enumerate(test_names):
+    actual = y_test.iloc[i]
+    pred = model.predict(X_test_scaled[i].reshape(1, -1))[0]
+    status = "✅ Correct" if actual == pred else "❌ Wrong"
+    print(f"{name:8} | Actual: {actual} | Predicted: {pred} | {status}")
+
+print("\n" + "-"*60)
+
+# Step 4: Feature Importance
+coefficients = model.coef_[0]
+feature_importance = pd.DataFrame({
+    'Feature': features,
+    'Coefficient': coefficients
+})
+
+# Sort by absolute value
+feature_importance = feature_importance.reindex(
+    feature_importance['Coefficient'].abs().sort_values(ascending=False).index
+)
+
+print("Feature Importance (sorted by strength):")
+print(feature_importance.round(4))
+
+# Plot Feature Importance
+plt.figure(figsize=(10, 6))
+colors = ['green' if coef > 0 else 'red' for coef in feature_importance['Coefficient']]
+plt.barh(feature_importance['Feature'], feature_importance['Coefficient'], color=colors)
+plt.title("Feature Importance (Logistic Regression Coefficients)")
+plt.xlabel("Coefficient Value")
+plt.ylabel("Feature")
+plt.grid(axis='x', alpha=0.3)
+plt.tight_layout()
+plt.savefig("feature_importance.png")
+plt.show()
+
+# Step 5: Predict for a New Student (Bonus)
+new_student = [[75, 70, 68, 65, 80, 82, 3.2]]   # math to study_hours
+new_scaled = scaler.transform(new_student)
+prediction = model.predict(new_scaled)[0]
+probability = model.predict_proba(new_scaled)[0]
+
+print("\n=== New Student Prediction ===")
+print("New Student Features:", new_student[0])
+print("Predicted Result:", "Pass" if prediction == 1 else "Fail")
+print(f"Probability of Pass: {probability[1]:.2f}")
+print(f"Probability of Fail: {probability[0]:.2f}")
