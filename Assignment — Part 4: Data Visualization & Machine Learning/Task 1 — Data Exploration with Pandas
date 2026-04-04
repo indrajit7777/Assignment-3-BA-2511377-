@@ -1,5 +1,3 @@
-print("=== Task 1: Data Exploration with Pandas ===\n")
-
 # 1. First 5 rows
 print("1. First 5 rows:")
 print(df.head())
