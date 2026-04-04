@@ -1,0 +1,58 @@
+# 1. Bar Plot - Average Math and Science Score by Pass/Fail
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Math Score
+sns.barplot(data=df, x='passed', y='math', ax=axes[0], palette=['red', 'green'])
+axes[0].set_title("Average Math Score by Pass/Fail")
+axes[0].set_xlabel("Passed (0 = Fail, 1 = Pass)")
+axes[0].set_ylabel("Math Score")
+
+# Science Score
+sns.barplot(data=df, x='passed', y='science', ax=axes[1], palette=['red', 'green'])
+axes[1].set_title("Average Science Score by Pass/Fail")
+axes[1].set_xlabel("Passed (0 = Fail, 1 = Pass)")
+axes[1].set_ylabel("Science Score")
+
+plt.suptitle("Comparison of Math and Science Scores")
+plt.tight_layout()
+plt.savefig("seaborn_plot1_bar.png")
+plt.show()
+
+# 2. Scatter Plot with Regression Lines
+plt.figure(figsize=(8, 6))
+
+# Pass students
+sns.regplot(data=df[df['passed'] == 1], 
+            x='attendance_pct', 
+            y='avg_score', 
+            scatter_kws={'color': 'green', 'alpha': 0.7},
+            line_kws={'color': 'green'},
+            label='Pass')
+
+# Fail students
+sns.regplot(data=df[df['passed'] == 0], 
+            x='attendance_pct', 
+            y='avg_score', 
+            scatter_kws={'color': 'red', 'alpha': 0.7},
+            line_kws={'color': 'red'},
+            label='Fail')
+
+plt.title("Attendance % vs Average Score (with Regression Line)")
+plt.xlabel("Attendance Percentage")
+plt.ylabel("Average Score")
+plt.legend(title="Result")
+plt.grid(True, alpha=0.3)
+plt.savefig("seaborn_plot2_scatter.png")
+plt.show()
+
+print("Both Seaborn plots saved successfully!")
+
+# Comparison comment
+"""
+Comparison between Seaborn and Matplotlib:
+Seaborn was much easier and faster for these plots. 
+The barplot() and regplot() functions automatically handle colors, 
+regression lines, and nice styling with very little code. 
+Matplotlib required more manual work for colors, legends, and layout. 
+Seaborn is better when you want quick and beautiful statistical plots.
+"""
