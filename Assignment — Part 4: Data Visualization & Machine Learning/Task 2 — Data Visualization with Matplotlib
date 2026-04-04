@@ -1,5 +1,3 @@
-print("=== Task 2: Data Visualization with Matplotlib ===\n")
-
 # 1. Bar Chart - Average score per subject
 plt.figure(figsize=(8, 5))
 avg_subjects = df[subject_cols].mean()
