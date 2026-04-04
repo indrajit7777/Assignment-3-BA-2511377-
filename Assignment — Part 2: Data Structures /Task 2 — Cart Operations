@@ -1,0 +1,83 @@
+menu = {
+    "Paneer Tikka": {"category": "Starters", "price": 180.0, "available": True},
+    "Chicken Wings": {"category": "Starters", "price": 220.0, "available": False},
+    "Veg Soup": {"category": "Starters", "price": 120.0, "available": True},
+    "Butter Chicken": {"category": "Mains", "price": 320.0, "available": True},
+    "Dal Tadka": {"category": "Mains", "price": 180.0, "available": True},
+    "Veg Biryani": {"category": "Mains", "price": 250.0, "available": True},
+    "Garlic Naan": {"category": "Mains", "price": 40.0, "available": True},
+    "Gulab Jamun": {"category": "Desserts", "price": 90.0, "available": True},
+    "Rasgulla": {"category": "Desserts", "price": 80.0, "available": True},
+    "Ice Cream": {"category": "Desserts", "price": 110.0, "available": False},
+}
+
+cart = []
+
+# Function to add item to cart
+def add_to_cart(item_name, quantity=1):
+    if item_name not in menu:
+        print(f"Error: {item_name} is not in the menu.")
+        return
+    if not menu[item_name]["available"]:
+        print(f"Sorry, {item_name} is not available now.")
+        return
+    
+    # Check if item already in cart
+    for item in cart:
+        if item["item"] == item_name:
+            item["quantity"] += quantity
+            print(f"Added {quantity} more {item_name}. Total: {item['quantity']}")
+            return
+    
+    # Add new item
+    price = menu[item_name]["price"]
+    cart.append({"item": item_name, "quantity": quantity, "price": price})
+    print(f"Added {quantity} × {item_name} to cart.")
+
+
+# Function to remove item from cart
+def remove_from_cart(item_name):
+    for item in cart:
+        if item["item"] == item_name:
+            cart.remove(item)
+            print(f"Removed {item_name} from cart.")
+            return
+    print(f"{item_name} is not in your cart.")
+
+
+# Simulate the required sequence
+print("Starting Order...\n")
+
+add_to_cart("Paneer Tikka", 2)
+add_to_cart("Gulab Jamun", 1)
+add_to_cart("Paneer Tikka", 1)   # Should increase quantity
+add_to_cart("Mystery Burger")     # Should show error
+add_to_cart("Chicken Wings")      # Should show unavailable
+
+remove_from_cart("Gulab Jamun")
+
+# Print current cart
+print("\nYour Cart:")
+for item in cart:
+    print(f"{item['item']} x {item['quantity']} = ₹{item['quantity'] * item['price']:.2f}")
+
+# Final Order Summary
+print("\n" + "="*40)
+print("       ORDER SUMMARY")
+print("="*40)
+
+subtotal = 0
+for item in cart:
+    item_total = item["quantity"] * item["price"]
+    subtotal += item_total
+    print(f"{item['item']:15} x{item['quantity']:2}   ₹{item_total:6.2f}")
+
+gst = subtotal * 0.05
+total = subtotal + gst
+
+print("-" * 40)
+print(f"{'Subtotal:':25} ₹{subtotal:8.2f}")
+print(f"{'GST (5%):':25} ₹{gst:8.2f}")
+print("=" * 40)
+print(f"{'Total Payable:':25} ₹{total:8.2f}")
+print("=" * 40)
