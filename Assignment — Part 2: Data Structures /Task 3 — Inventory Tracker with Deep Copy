@@ -1,67 +1,66 @@
+# Original inventory
+inventory = {
+    "Paneer Tikka": {"stock": 10, "reorder_level": 3},
+    "Chicken Wings": {"stock": 8, "reorder_level": 2},
+    "Veg Soup": {"stock": 15, "reorder_level": 5},
+    "Butter Chicken": {"stock": 12, "reorder_level": 4},
+    "Dal Tadka": {"stock": 20, "reorder_level": 5},
+    "Veg Biryani": {"stock": 6, "reorder_level": 3},
+    "Garlic Naan": {"stock": 30, "reorder_level": 10},
+    "Gulab Jamun": {"stock": 5, "reorder_level": 2},
+    "Rasgulla": {"stock": 4, "reorder_level": 3},
+    "Ice Cream": {"stock": 7, "reorder_level": 4},
+}
 
-# part 1 - deep copy
-
-# deepcopy makes a full separate copy including inner dictionaries
-# normal copy wont work because inventory has dicts inside dicts
+# Part 1: Deep Copy
 inventory_backup = copy.deepcopy(inventory)
 
-# change paneer tikka stock to prove backup stays the same
+# Test if deep copy works
 inventory["Paneer Tikka"]["stock"] = 999
 
-print("after change:")
-print("inventory paneer stock =", inventory["Paneer Tikka"]["stock"])
-print("backup paneer stock =", inventory_backup["Paneer Tikka"]["stock"])
-print("backup didnt change, so deepcopy works")
-print()
+print("After changing stock in original inventory:")
+print("Current inventory - Paneer Tikka stock:", inventory["Paneer Tikka"]["stock"])
+print("Backup inventory - Paneer Tikka stock:", inventory_backup["Paneer Tikka"]["stock"])
+print("Deepcopy worked! Backup remained unchanged.\n")
 
-# restore back to 10 before doing anything else
+# Restore original stock
 inventory["Paneer Tikka"]["stock"] = 10
-print("restored paneer tikka stock back to 10")
-print()
+print("Restored Paneer Tikka stock back to 10.\n")
 
-
-# part 2 - order fulfilment
-# cart from task 2
+# Part 2: Order Fulfilment
 final_cart = [{"item": "Paneer Tikka", "quantity": 3, "price": 180.0}]
 
 print("--- Order Fulfilment ---")
-
 for order in final_cart:
     name = order["item"]
     qty = order["quantity"]
-    stock = inventory[name]["stock"]
-
-    if stock >= qty:
-        inventory[name]["stock"] = stock - qty
-        print("Deducted", qty, "from", name)
-        print("Stock left:", inventory[name]["stock"])
+    
+    if name in inventory:
+        stock = inventory[name]["stock"]
+        if stock >= qty:
+            inventory[name]["stock"] = stock - qty
+            print(f"Deducted {qty} from {name}")
+            print(f"Stock left for {name}: {inventory[name]['stock']}")
+        else:
+            print(f"Warning: Not enough stock for {name}")
+            print(f"Needed {qty}, but only {stock} available")
+            inventory[name]["stock"] = 0
+            print(f"Stock for {name} set to 0")
     else:
-        # not enough stock, only deduct what we have
-        print("Warning: not enough stock for", name)
-        print("Needed", qty, "but only", stock, "available")
-        inventory[name]["stock"] = 0
-        print("Stock set to 0")
-
+        print(f"Error: {name} not found in inventory")
 print()
 
-
-# part 3 - reorder alerts
-
+# Part 3: Reorder Alerts
 print("--- Reorder Alerts ---")
-
 for item in inventory:
     stock = inventory[item]["stock"]
     reorder = inventory[item]["reorder_level"]
-
     if stock <= reorder:
-        print("Reorder Alert:", item, "only", stock, "unit(s) left (reorder level:", str(reorder) + ")")
-
+        print(f"Reorder Alert: {item} - Only {stock} left (Reorder level: {reorder})")
 print()
 
-
-# part 4 - final comparison to prove deep copy worked
-
-print("--- Comparing inventory vs backup ---")
-print("Paneer Tikka current stock =", inventory["Paneer Tikka"]["stock"])
-print("Paneer Tikka backup stock =", inventory_backup["Paneer Tikka"]["stock"])
-print("values are different so deep copy protected the original")
+# Part 4: Final Comparison
+print("--- Final Comparison (inventory vs backup) ---")
+print(f"Paneer Tikka - Current stock : {inventory['Paneer Tikka']['stock']}")
+print(f"Paneer Tikka - Backup stock  : {inventory_backup['Paneer Tikka']['stock']}")
+print("Deep copy successfully protected the original data!")
